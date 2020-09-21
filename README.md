@@ -74,3 +74,34 @@ async function sample(): Promise<void> {
 
 sample()
 ```
+
+Commonly used with [dbasefy](https://www.npmjs.com/package/dbasefy). Sample:
+
+
+```typescript
+import { DB, Connection, SqlQuery } from 'dbasefy'
+import { OracleConnection } from 'dbasefy-oracle'
+
+interface DummyRow {
+  DUMMY: string
+}
+
+async function getData(conn: Connenction): Promise<DummyRow[]> {
+    const query = conn.createQuery() as SqlQuery
+    query.commandText = 'SELECT * FROM DUAL'
+    return await query.execute() as DummyRow[]
+}
+
+asynct function getDataWithoutDbasefy(): Promise<DummyRow[]> {
+   const conn = await OracleConnection().open()
+   try {
+       return await getData(conn) as DummyRow[]
+   } finally {
+       await conn.close()
+   }
+}
+
+async function getDataWithDbasefy(): Promise<DummyRow[]> {
+    return await DB.session<DummyRow>(OracleConnection, getData)
+}
+```

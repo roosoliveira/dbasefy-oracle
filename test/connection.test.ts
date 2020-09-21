@@ -7,28 +7,25 @@ import { OracleConnection, OracleSqlCommand, OracleSqlQuery } from "../src"
 describe('Oracle connection', () => {
 
     it('session', async () => {
-        DB.session(OracleConnection, async conn => {
-            const query = conn.createQuery() as OracleSqlQuery
-            query.commandText = 'SELECT * FROM DUAL'
+        DB.session(OracleConnection, async (conn: OracleConnection) => {
+            const query = conn.createQuery('SELECT * FROM DUAL')
             await query.execute()
         })
     })
 
     it('query', async () => {
-        DB.session(OracleConnection, async conn => {
-            const query = conn.createQuery() as OracleSqlQuery
-            query.commandText = 'SELECT * FROM DUAL'
+        DB.session(OracleConnection, async (conn: OracleConnection) => {
+            const query = conn.createQuery('SELECT * FROM DUAL')
             const data = await query.execute()
             expect(data).to.be.an('Array')
         })
     })
 
     it('transaction', async () => {
-        DB.session(OracleConnection, async conn => {
-            const trx = (conn as OracleConnection).createTransaction()
+        DB.session(OracleConnection, async (conn: OracleConnection) => {
+            const trx = conn.createTransaction()
             try {
-                const query = conn.createCommand() as OracleSqlCommand
-                query.commandText = `UPDATE TIAGO SET TEXTO = 'test transaction' WHERE SEQ = 2`
+                const query = conn.createCommand(`UPDATE TIAGO SET TEXTO = 'test transaction' WHERE SEQ = 2`)
                 await query.execute()
                 await trx.commit()
             } catch (err) {

@@ -1,12 +1,22 @@
 {
   "name": "dbasefy-oracle",
   "version": "1.0.0",
-  "description": "",
+  "description": "Dbasefy complement, oracledb library",
   "main": "index.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "build": "tsc"
   },
+  "repository": {
+    "url": "https://github.com/roosoliveira/dbasefy-oracle.git"
+  },
+  "keywords": [
+    "database",
+    "SQL",
+    "Oracle",
+    "dbasefy",
+    "framework"
+  ],
   "author": "Tiago Roos de Oliveira",
   "license": "ISC",
   "dependencies": {
