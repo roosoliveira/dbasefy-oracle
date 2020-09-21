@@ -6,15 +6,6 @@ import { OracleConnection, OracleSqlCommand, OracleSqlQuery } from "../src"
 
 describe('Oracle connection', () => {
 
-    it('config manual', async () => {
-        const conn = await new OracleConnection().open({ 
-            user: 'kunden',
-            password: 'k11desenv18',
-            connectionString: '192.168.20.239:1521/DESENVV4.kunden.local'
-        })
-        await conn.close()
-    })
-
     it('session', async () => {
         DB.session(OracleConnection, async conn => {
             const query = conn.createQuery() as OracleSqlQuery
