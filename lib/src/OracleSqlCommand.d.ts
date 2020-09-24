@@ -1,10 +1,10 @@
 import OracleDB from 'oracledb';
-import { Binds } from './configs';
 import { SqlCommand } from 'dbasefy/lib/SQL';
+import { SqlStatement, Variant } from 'dbasefy/lib/SQL/statements';
 export default class OracleSqlCommand implements SqlCommand {
     commandText: string;
-    binds: Binds;
+    binds: Variant;
     private $conn;
-    constructor(oracleConnection: OracleDB.Connection, commandText?: string);
+    constructor(oracleConnection: OracleDB.Connection, statement?: SqlStatement);
     execute(): Promise<void>;
 }

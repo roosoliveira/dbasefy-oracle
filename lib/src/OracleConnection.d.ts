@@ -1,9 +1,8 @@
-import { Query } from 'dbasefy';
+import { Command, Query } from 'dbasefy';
 import { Connection } from 'dbasefy';
-import { SqlConnection, SqlQuery, Transaction } from 'dbasefy/lib/SQL';
-import { Binds } from './configs';
+import { SqlCommand, SqlConnection, SqlQuery, Transaction } from 'dbasefy/lib/SQL';
 import OracleDB from 'oracledb';
-import OracleSqlCommand from './OracleSqlCommand';
+import { SqlStatement, SqlStatementProvider } from 'dbasefy/lib/SQL/statements';
 export default class OracleConnection extends SqlConnection {
     private $conn;
     get bindSymbol(): string;
@@ -12,11 +11,10 @@ export default class OracleConnection extends SqlConnection {
     open(config: OracleDB.ConnectionAttributes): Promise<Connection>;
     close(): Promise<Connection>;
     createTransaction(): Transaction;
-    createCommand(): OracleSqlCommand;
-    createCommand(commandText: string): OracleSqlCommand;
-    createCommand(commandText: string, binds: Binds): OracleSqlCommand;
+    createCommand(): Command;
+    createCommand(statement: SqlStatement): SqlCommand;
     createQuery(): Query;
-    createQuery(commandText: string): SqlQuery;
-    createQuery(commandText: string, binds: Binds): SqlQuery;
+    createQuery(statement: SqlStatement): SqlQuery;
+    createSqlStatementProvider(): SqlStatementProvider;
     getConfig(): Promise<OracleDB.ConnectionAttributes>;
 }
