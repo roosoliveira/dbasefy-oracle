@@ -1,13 +1,13 @@
-# DBasefy Oracle
+# DBasefy Oracle (Beta)
 
 ````
 npm i dbasefy-oracle -S
 ````
 
-Encapsulates complexity from [oracledb](https://github.com/oracle/node-oracledb/blob/master/doc/api.md) library.
+Encapsulates complexity from [oracledb](https://github.com/oracle/node-oracledb/blob/master/doc/api.md) library. Its used along with [dbasefy](https://www.npmjs.com/package/dbasefy)
 
 ```typescript
-import { OracleConnection } from 'dbasefy/lib'
+import { OracleConnection } from 'dbasefy-oracle/lib'
 
 async function sample(): Promise<void> {
     const conn = await new OracleConnection().open()
@@ -57,7 +57,7 @@ Configurate the connection is quite simple. It's just necessary create a directo
 You can also creating a manual configuration:
 
 ```typescript
-import { OracleConnection } from 'dbasefy/lib'
+import { OracleConnection } from 'dbasefy-oracle/lib'
 
 async function sample(): Promise<void> {
     const conn = await new OracleConnection().open({
@@ -75,33 +75,32 @@ async function sample(): Promise<void> {
 sample()
 ```
 
-Commonly used with [dbasefy](https://www.npmjs.com/package/dbasefy). Sample:
-
+With a session:
 
 ```typescript
 import { DB, Connection, SqlQuery } from 'dbasefy'
 import { OracleConnection } from 'dbasefy-oracle'
 
-interface DummyRow {
+interface DualTable {
   DUMMY: string
 }
 
 async function getData(conn: Connenction): Promise<DummyRow[]> {
     const query = conn.createQuery() as SqlQuery
     query.commandText = 'SELECT * FROM DUAL'
-    return await query.execute() as DummyRow[]
+    return await query.execute() as DualTable[]
 }
 
-asynct function getDataWithoutDbasefy(): Promise<DummyRow[]> {
+async function getDataWithoutDbasefy(): Promise<DummyRow[]> {
    const conn = await OracleConnection().open()
    try {
-       return await getData(conn) as DummyRow[]
+       return await getData(conn) as DualTable[]
    } finally {
        await conn.close()
    }
 }
 
 async function getDataWithDbasefy(): Promise<DummyRow[]> {
-    return await DB.session<DummyRow>(OracleConnection, getData)
+    return await DB.session<DualTable>(OracleConnection, getData)
 }
 ```

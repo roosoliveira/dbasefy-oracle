@@ -20,8 +20,10 @@
   "author": "Tiago Roos de Oliveira",
   "license": "ISC",
   "dependencies": {
-    "dbasefy": "^1.0.2",
-    "oracledb": "^5.0.0"
+    "@types/ramda": "^0.27.19",
+    "dbasefy": "^1.0.7",
+    "oracledb": "^5.0.0",
+    "ramda": "^0.27.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",

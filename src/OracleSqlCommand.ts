@@ -1,18 +1,18 @@
 import OracleDB from 'oracledb'
-import { Binds } from './configs'
 import { SqlCommand } from 'dbasefy/lib/SQL'
+import { SqlStatement, Variant } from 'dbasefy/lib/SQL/statements'
 
 export default class OracleSqlCommand implements SqlCommand {
 
     commandText: string
-    binds: Binds
+    binds: Variant
 
     private $conn: OracleDB.Connection
 
-    constructor(oracleConnection: OracleDB.Connection, commandText: string = '') {
-        this.commandText = commandText
+    constructor(oracleConnection: OracleDB.Connection, statement: SqlStatement = null) {
         this.$conn = oracleConnection
-        this.binds = {}
+        this.commandText = (statement || {}).commandText
+        this.binds = (statement || {}).binds || {}
     }
 
     async execute(): Promise<void> {

@@ -1,12 +1,13 @@
-import { Query } from 'dbasefy'
+import { Command, Query } from 'dbasefy'
 import { Connection } from 'dbasefy'
-import { SqlConnection, SqlQuery, Transaction } from 'dbasefy/lib/SQL'
-import { Binds } from './configs'
+import { SqlCommand, SqlConnection, SqlQuery, Transaction } from 'dbasefy/lib/SQL'
 import JsonConfig from 'dbasefy/lib/config/JsonConfig'
 import OracleDB from 'oracledb'
 import OracleSqlCommand from './OracleSqlCommand'
 import OracleSqlQuery from './OracleSqlQuery'
 import OracleTransaction from './OracleTransaction'
+import { SqlStatement, SqlStatementProvider } from 'dbasefy/lib/SQL/statements'
+import OracleSqlStatementProvider from './OracleSqlStatementProvider'
 
 export default class OracleConnection extends SqlConnection {
 
@@ -38,22 +39,20 @@ export default class OracleConnection extends SqlConnection {
         return new OracleTransaction(this.$conn)
     }
 
-    createCommand(): OracleSqlCommand 
-    createCommand(commandText: string): OracleSqlCommand
-    createCommand(commandText: string, binds: Binds): OracleSqlCommand
-    createCommand(commandText?: string, binds?: Binds): OracleSqlCommand {
-        const cmd = new OracleSqlCommand(this.$conn, commandText)
-        cmd.binds = binds || {}
-        return cmd
+    createCommand(): Command
+    createCommand(statement: SqlStatement): SqlCommand
+    createCommand(statement?: any) {
+        return new OracleSqlCommand(this.$conn, statement)
     }
 
     createQuery(): Query
-    createQuery(commandText: string): SqlQuery
-    createQuery(commandText: string, binds: Binds): SqlQuery
-    createQuery(commandText?: string, binds?: Binds): SqlQuery {
-        const qry = new OracleSqlQuery(this.$conn, commandText)
-        qry.binds = binds || {}
-        return qry
+    createQuery(statement: SqlStatement): SqlQuery
+    createQuery(statement?: any) {
+        return new OracleSqlQuery(this.$conn, statement)
+    }
+
+    createSqlStatementProvider(): SqlStatementProvider {
+        return new OracleSqlStatementProvider()
     }
 
     async getConfig(): Promise<OracleDB.ConnectionAttributes> {
