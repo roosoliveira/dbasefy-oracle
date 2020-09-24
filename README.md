@@ -85,13 +85,13 @@ interface DualTable {
   DUMMY: string
 }
 
-async function getData(conn: Connenction): Promise<DummyRow[]> {
+async function getData(conn: Connenction): Promise<DualTable[]> {
     const query = conn.createQuery() as SqlQuery
     query.commandText = 'SELECT * FROM DUAL'
     return await query.execute() as DualTable[]
 }
 
-async function getDataWithoutDbasefy(): Promise<DummyRow[]> {
+async function getDataWithoutDbasefy(): Promise<DualTable[]> {
    const conn = await OracleConnection().open()
    try {
        return await getData(conn) as DualTable[]
@@ -100,7 +100,7 @@ async function getDataWithoutDbasefy(): Promise<DummyRow[]> {
    }
 }
 
-async function getDataWithDbasefy(): Promise<DummyRow[]> {
+async function getDataWithDbasefy(): Promise<DualTable[]> {
     return await DB.session<DualTable>(OracleConnection, getData)
 }
 ```
