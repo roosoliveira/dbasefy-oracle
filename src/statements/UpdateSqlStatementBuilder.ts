@@ -1,14 +1,13 @@
 import { mergeAll } from 'ramda'
-import { Variant } from 'dbasefy/lib/SQL/statements'
 import OracleSqlStatementBuilder from './OracleSqlStatementBuilder'
 
 export default class UpdateSqlStatementBuilder implements OracleSqlStatementBuilder {
 
     private $template = 'UPDATE %TABLE% SET %VALUES%'
     private $tableName: string
-    private $data: Variant
+    private $data: any
 
-    constructor(tableName: string, data: Variant) {
+    constructor(tableName: string, data: any) {
         this.$tableName = tableName
         this.$data = data
     }
@@ -21,7 +20,7 @@ export default class UpdateSqlStatementBuilder implements OracleSqlStatementBuil
             .replace('%VALUES%', values.join(', '))
     }
 
-    createBinds(): Variant {
+    createBinds(): any {
         const binds = Object
             .keys(this.$data)
             .map(f => ({ [f]: this.$data[f] }))

@@ -1,4 +1,4 @@
-import { SqlFilter, SqlStatement, SqlStatementProvider, Variant } from 'dbasefy/lib/SQL/statements'
+import { SqlFilter, SqlStatement, SqlStatementProvider } from 'dbasefy/lib/SQL/statements'
 import DeleteSqlStatementBuilder from './statements/DeleteSqlStatementBuilder'
 import InsertSqlStatementBuilder from './statements/InsertSqlStatementBuilder'
 import SelectSqlStatementBuilder from './statements/SelectSqlStatementBuilder'
@@ -14,11 +14,11 @@ export default class OracleSqlStatementProvider implements SqlStatementProvider 
         this.$sqlDirector = new SqlStatementDirector()
     }
 
-    insert(tableName: string, data: Variant): SqlStatement {
+    insert(tableName: string, data: any): SqlStatement {
         return this.$sqlDirector.createSqlStatement(new InsertSqlStatementBuilder(tableName, data))
     }
 
-    update(tableName: string, data: Variant): SqlStatement {
+    update(tableName: string, data: any): SqlStatement {
         return this.$sqlDirector.createSqlStatement(new UpdateSqlStatementBuilder(tableName, data))
     }
 

@@ -33,6 +33,18 @@ describe('Creation of SQL Statements', () => {
         expect(statement.binds).to.own.include({ FILTER_0_0: 10, FILTER_1_0: 'Test' })
     })
 
+    it('Select Statement with BETWEEN condition', async() => {
+        const select = new SelectSqlStatement(conn.createSqlStatementProvider())
+        const statement = select
+            .field('TEXT')
+            .from('TEST_TABLE')
+            .where.field('ID').between([1, 2])
+            .toStatement()
+
+        expect(statement.commandText).to.be.equal('SELECT TEXT FROM TEST_TABLE WHERE 1=1 AND ID BETWEEN :FILTER_0_0 AND :FILTER_0_1')
+        expect(statement.binds).to.own.include({ FILTER_0_0: 1, FILTER_0_1: 2 })
+    })
+
     it('Select Statement without WHERE', async() => {
         const select = new SelectSqlStatement(conn.createSqlStatementProvider())
         const statement = select

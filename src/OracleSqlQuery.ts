@@ -1,12 +1,11 @@
 import OracleDB from 'oracledb'
 import { SqlQuery } from 'dbasefy/lib/SQL'
-import { OracleData } from './configs'
-import { SqlStatement, Variant } from 'dbasefy/lib/SQL/statements'
+import { SqlStatement } from 'dbasefy/lib/SQL/statements'
 
 export default class OracleSqlQuery implements SqlQuery {
 
     commandText: string
-    binds: Variant
+    binds: any
 
     private $conn: OracleDB.Connection
 
@@ -16,11 +15,11 @@ export default class OracleSqlQuery implements SqlQuery {
         this.binds = (statement || {}).binds || {}
     }
 
-    async execute(): Promise<OracleData[]> {
+    async execute(): Promise<any[]> {
         const stream = this.$conn.queryStream(this.commandText, this.binds as OracleDB.BindParameters)
 
-        return await new Promise<OracleData[]>((resolve, reject) => {
-            const result: OracleData[] = []
+        return await new Promise<any[]>((resolve, reject) => {
+            const result: any[] = []
             stream
                 .on('data', populate(result))
                 .on('error', reject)
@@ -32,11 +31,9 @@ export default class OracleSqlQuery implements SqlQuery {
                 stream.destroy()
             }
 
-            function populate(result: OracleData[]) {
+            function populate(result: any[]) {
                 return (chunk: any) => {
-                    const item = new OracleData()
-                    for(const key in chunk) item[key] = chunk[key]
-                    result.push(item)
+                    result.push(chunk)
                 }
             }
         })

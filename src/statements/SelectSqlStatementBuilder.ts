@@ -1,4 +1,3 @@
-import { Variant } from 'dbasefy/lib/SQL/statements'
 import OracleSqlStatementBuilder from './OracleSqlStatementBuilder'
 
 export default class SelectSqlStatementBuilder implements OracleSqlStatementBuilder {
@@ -18,7 +17,7 @@ export default class SelectSqlStatementBuilder implements OracleSqlStatementBuil
             .replace('%TABLE%', this.$tableName)
     }
 
-    createBinds(): Variant {
+    createBinds(): any {
         return {}
     }
 

@@ -1,11 +1,10 @@
 import OracleDB from 'oracledb';
 import { SqlQuery } from 'dbasefy/lib/SQL';
-import { OracleData } from './configs';
-import { SqlStatement, Variant } from 'dbasefy/lib/SQL/statements';
+import { SqlStatement } from 'dbasefy/lib/SQL/statements';
 export default class OracleSqlQuery implements SqlQuery {
     commandText: string;
-    binds: Variant;
+    binds: any;
     private $conn;
     constructor(oracleConnection: OracleDB.Connection, statement?: SqlStatement);
-    execute(): Promise<OracleData[]>;
+    execute(): Promise<any[]>;
 }
