@@ -1,3 +1,4 @@
+import oracledb from 'oracledb'
 import { Command, Query } from 'dbasefy'
 import { Connection } from 'dbasefy'
 import { SqlCommand, SqlConnection, SqlQuery, Transaction } from 'dbasefy/lib/SQL'
@@ -59,4 +60,7 @@ export default class OracleConnection extends SqlConnection {
         return await new JsonConfig<OracleDB.ConnectionAttributes>().read('oracledb')
     }
 
+    static getBindType(type: 'IN' | 'OUT' | 'INOUT'): number {
+        return oracledb[`BIND_${type}`]
+    }
 }

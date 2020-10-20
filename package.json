@@ -1,6 +1,6 @@
 {
   "name": "dbasefy-oracle",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Dbasefy complement, oracledb library",
   "main": "index.js",
   "scripts": {
