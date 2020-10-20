@@ -17,4 +17,5 @@ export default class OracleConnection extends SqlConnection {
     createQuery(statement: SqlStatement): SqlQuery;
     createSqlStatementProvider(): SqlStatementProvider;
     getConfig(): Promise<OracleDB.ConnectionAttributes>;
+    static getBindType(type: 'IN' | 'OUT' | 'INOUT'): number;
 }
