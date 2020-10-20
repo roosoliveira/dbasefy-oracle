@@ -6,5 +6,5 @@ export default class OracleSqlCommand implements SqlCommand {
     binds: any;
     private $conn;
     constructor(oracleConnection: OracleDB.Connection, statement?: SqlStatement);
-    execute(): Promise<void>;
+    execute(): Promise<any>;
 }

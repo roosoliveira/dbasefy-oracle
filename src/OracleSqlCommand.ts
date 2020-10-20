@@ -15,7 +15,7 @@ export default class OracleSqlCommand implements SqlCommand {
         this.binds = (statement || {}).binds || {}
     }
 
-    async execute(): Promise<void> {
-        await this.$conn.execute(this.commandText, this.binds)
+    async execute(): Promise<any> {
+        return await this.$conn.execute(this.commandText, this.binds)
     }
 }
